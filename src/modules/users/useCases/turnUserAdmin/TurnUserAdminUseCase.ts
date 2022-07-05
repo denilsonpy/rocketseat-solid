@@ -1,3 +1,4 @@
+import { AppError } from "../../../../AppError";
 import { User } from "../../model/User";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
@@ -9,7 +10,15 @@ class TurnUserAdminUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ user_id }: IRequest): User {
-    // Complete aqui
+    const userExists = this.usersRepository.findById(user_id);
+
+    if (!userExists) {
+      throw new AppError("User does not exists", 404);
+    }
+
+    const user = this.usersRepository.turnAdmin(userExists);
+
+    return user;
   }
 }
 
