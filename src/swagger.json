@@ -1,0 +1,211 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Rocketseat Solid Documentation",
+    "description": "This is an Rocketseat API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "contato.denilsonsilva@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Cria um novo usuario",
+        "description": "Cria um novo usuario",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "rocketseat",
+                  "email": "rocketseat@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuario cadastrado",
+            "example": {
+              "id": "",
+              "name": "rocketseat",
+              "email": "rocketseat@gmail.com"
+            }
+          },
+          "400": {
+            "description": "User already exists"
+          }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna todos os usuario",
+        "description": "Retorna todos os usuario",
+        "parameters": [
+          {
+            "in": "headers",
+            "name": "user_id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Id do usuario",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/schemas/User"
+                  }
+                },
+                "example": [
+                  {
+                    "id": "f73e938b-5f58-4e01-8adb-3748ee5935dc",
+                    "admin": false,
+                    "email": "rocketseat@gmail.com",
+                    "name": "rocketseat",
+                    "created_at": "2022-07-05T13:40:47",
+                    "updated_at": "2022-07-05T13:40:47"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Retorna usuario especifico",
+        "description": "Retorna usuario especifico",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Id do usuario",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "schema": {
+                    "$ref": "#/definitions/schemas/User"
+                  }
+                },
+                "example": {
+                  "id": "f73e938b-5f58-4e01-8adb-3748ee5935dc",
+                  "admin": false,
+                  "email": "rocketseat@gmail.com",
+                  "name": "rocketseat",
+                  "created_at": "2022-07-05T13:40:47",
+                  "updated_at": "2022-07-05T13:40:47"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{user_id}/admin": {
+        "patch": {
+            "tags": ["users"],
+            "summary": "Torna o usuario um admin",
+            "description": "Torna o usuario um admin",
+            "parameters": [
+                {
+                  "in": "path",
+                  "name": "user_id",
+                  "schema": {
+                    "type": "string"
+                  },
+                  "description": "Id do usuario",
+                  "required": true
+                }
+              ],
+            "responses": {
+              "200": {
+                "description": "Operacao realizada com sucesso",
+                "content": {
+                    "application/json":{
+                        "schema": {
+                            "type": "object",
+                            "schema": { 
+                                "$ref": "#/definitions/schemas/User"
+                            }
+                        },
+                        "example": {
+                            "id": "f73e938b-5f58-4e01-8adb-3748ee5935dc",
+                            "admin": true,
+                            "email": "rocketseat@gmail.com",
+                            "name": "rocketseat",
+                            "created_at": "2022-07-05T13:40:47",
+                            "updated_at": "2022-07-05T13:40:47"
+                          }
+                    }
+                }
+  
+              },
+              "404": {
+                "description": "Usuario nao encontrado"
+              }
+            }
+          }
+    }
+  },
+  "definitions": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "admin": {
+            "type": "boolean"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "timestamp"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "timestamp"
+          }
+        }
+      }
+    }
+  }
+}
